@@ -19,6 +19,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()); // Allow all requests for simplicity
+        http.headers(httpSecurityHeadersConfigurer ->
+                httpSecurityHeadersConfigurer.frameOptions(frameOptionsConfig ->frameOptionsConfig.disable() ));
         return http.build();
     }
 }
