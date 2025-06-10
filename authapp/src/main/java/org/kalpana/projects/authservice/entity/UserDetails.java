@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @ToString
 @EqualsAndHashCode(exclude ={"name","contacts", "addresses"} )
+@Entity
 public class UserDetails {
 
     @Id
@@ -26,10 +27,10 @@ public class UserDetails {
     private String name;
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userDetails", cascade = CascadeType.ALL)
     private List<Contact> contacts;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userDetails", cascade = CascadeType.ALL)
     private List<Address> addresses;
 
 }
