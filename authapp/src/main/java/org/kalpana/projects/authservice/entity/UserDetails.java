@@ -25,7 +25,6 @@ public class UserDetails {
     private User user;
 
     private String name;
-    private String email;
 
     @OneToMany(mappedBy = "userDetails", cascade = CascadeType.ALL)
     private List<Contact> contacts;

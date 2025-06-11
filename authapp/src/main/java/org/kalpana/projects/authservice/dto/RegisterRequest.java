@@ -10,5 +10,6 @@ import lombok.ToString;
 public class RegisterRequest {
     private String username;
     private String password;
+    private String email;
     // Getters & Setters
 }
