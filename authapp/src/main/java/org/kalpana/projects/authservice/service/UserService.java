@@ -25,7 +25,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public MessageResponse registerUser(RegisterRequest request) {
-        Optional<User> optionalUser = userRepository.findByUsername(request.getUsername());
+        Optional<User> optionalUser = userRepository.findByUserName(request.getUsername());
         if (optionalUser.isPresent()) {
             User existingUser = optionalUser.get();
             return createMessageResponse(existingUser, USER_EXISTS);
@@ -35,7 +35,7 @@ public class UserService {
 
     private User saveUser(RegisterRequest request) {
         User user = new User();
-        user.setUsername(request.getUsername());
+        user.setUserName(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
         return userRepository.save(user);
@@ -44,17 +44,17 @@ public class UserService {
     private MessageResponse createMessageResponse(User user, String message) {
         MessageResponse messageResponse = new MessageResponse(message);
         messageResponse.setUserId(user.getId());
-        messageResponse.setName(user.getUsername());
+        messageResponse.setName(user.getUserName());
        log.debug("messageResponse created {}", messageResponse);
         return messageResponse;
     }
 
     public MessageResponse loginUser(LoginRequest request) {
-        Optional<User> user = userRepository.findByUsername(request.getUsername());
+        Optional<User> user = userRepository.findByUserName(request.getUsername());
         if (user.isPresent() && passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
-           createMessageResponse(user.get(), LOGGED_IN);
+           return createMessageResponse(user.get(), LOGGED_IN);
         }
-        return new MessageResponse("Invalid credentials.");
+        throw new RuntimeException("Invalid Credentials!");
     }
 
     public MessageResponse logoutUser() {
